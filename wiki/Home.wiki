@@ -1,0 +1,124 @@
+== stash ==
+
+stash is an object caching and persistence module for Python applications.
+
+Support for Google App Engine, web applications, terminal apps and a number of 
+cache handlers such as file and directory, memcached, redis, mongodb, etc.
+
+Supports multi-tier collating cache between handlers and is easy to setup and 
+use. Cache objects by decorating getters and setters, using the mixins provided 
+or inheriting the core cache object.
+
+Project homepage: [https://bitbucket.org/nik/stash]
+PyPi: [http://pypi.python.org/pypi/stash]
+
+=== Features ===
+
+* Simple object caching for all types of Python applications, specifically web
+applications
+* Support for Google App Engine cache stores (memcache, db, global variable)
+* Default handlers are File store, memcache, global var, redis.
+* Will auto-detect available cache store options
+* Easy to cache objects by decorating methods or inheriting the default storage
+types
+
+=== Installation ===
+
+**Using easy install or pip**
+
+{{{
+$ sudo easy_install stash
+}}}
+
+or with pip
+
+{{{
+$ sudo pip install stash
+}}}
+
+**Manual install**
+
+Download package:
+
+* //version 0.1 (dev)// : [https://bitbucket.org/nik/stash/get/tip.zip|ZIP]
+
+**Mercurial repository**
+
+{{{
+$ hg clone http://bitbucket.org/nik/stash 
+$ cd your_project
+$ ln -s /path/to/stash/folder stash
+}}}
+
+=== Getting Started ===
+
+Here's an implementation example:
+
+{{{
+#!python
+
+import stash
+
+class IndexController():
+
+	@stash.cache(text, ttl = 60 * 60)
+	def profile_page(self, id):
+		user = db.get_by_key(id)
+		return self.render('profile', {'user': user})
+
+}}}
+
+Second example:
+
+{{{
+#!python
+
+import stash.handler as cache_handler
+
+cache = cache_handler(handler = 'FileCacheHandler', dir = 'cache')
+cache.set('first', 'this is a stored object')
+cache.set('second', {'one': 'arbitary dict object})
+
+print cache.get('first')
+print cache.get('second')
+}}}
+
+=== Tests ===
+
+Full test coverage in ``tests``
+
+=== Contributing ===
+
+Fork, modify, pull, etc.
+
+=== Authors ===
+
+* Nik Cubrilovic - nikcub@gmail.com - [Homepage|http://nikcub.appspot.com]
+
+=== License ===
+
+Released under two-clause BSD license.
+
+Copyright (c) 2011, Nik Cubrilovic. 
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, 
+are permitted provided that the following conditions are met:
+
+  1.  Redistributions of source code must retain the above copyright notice, 
+      this list of conditions and the following disclaimer.
+
+  2.  Redistributions in binary form must reproduce the above copyright notice, 
+      this list of conditions and the following disclaimer in the documentation 
+      and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
+DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> OR CONTRIBUTORS BE LIABLE FOR 
+ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES 
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON 
+ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
